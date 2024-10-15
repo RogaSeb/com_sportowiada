@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>COM_SPORTOWIADA</name>
+	<creationDate>14-10-2024</creationDate>
+	<version>0.1.0-alpha</version>
+	<description>COM_SPORTOWIADA_XML_DESCRIPTION</description>
+
+	<namespace path="src/">RogackiS\Component\Sportowiada</namespace>
+
+	<administration>
+		<menu img="class:default">COM_SPORTOWIADA_MENU</menu>
+		<files folder="admin">
+			<folder>language</folder>
+			<folder>services</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="pl-PL">language/pl-PL/com_sportowiada.ini</language>
+			<language tag="pl-PL">language/pl-PL/com_sportowiada.sys.ini</language>
+		</languages>
+	</administration>
+</extension>
