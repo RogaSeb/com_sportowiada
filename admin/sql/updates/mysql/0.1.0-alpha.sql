@@ -1,0 +1,2 @@
+-- Plik 0.1.0-alpha.sql
+-- Na razie brak aktualizacji bazy danych

@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
 	<name>COM_SPORTOWIADA</name>
-	<creationDate>14-10-2024</creationDate>
-	<version>0.1.0-alpha</version>
+	<creationDate>16-10-2024</creationDate>
+	<version>0.2.0-alpha</version>
 	<description>COM_SPORTOWIADA_XML_DESCRIPTION</description>
 
 	<namespace path="src/">RogackiS\Component\Sportowiada</namespace>
 
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
 	<administration>
 		<menu img="class:default">COM_SPORTOWIADA_MENU</menu>
 		<files folder="admin">
+			<folder>forms</folder>
 			<folder>language</folder>
 			<folder>services</folder>
+			<folder>sql</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>
 		</files>
