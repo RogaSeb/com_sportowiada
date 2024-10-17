@@ -4,72 +4,157 @@ namespace RogackiS\Component\Sportowiada\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\Registry\Registry;
 
 class DisciplineModel extends AdminModel
 {
-    /**
-     * Metoda pobiera obiekt Form dla formularza edycji
-     *
-     * @param array $data Dane domyślne
-     * @param boolean $loadData Czy załadować dane formularza
-     * @return \JForm|boolean Obiekt JForm w przypadku powodzenia, false w przypadku błędu
-     */
-    public function getForm($data = array(), $loadData = true)
+    public function save($data)
     {
-        // Pobierz obiekt JForm
-        $form = $this->loadForm(
-            'com_sportowiada.discipline', // Nazwa formularza
-            'discipline',                 // Plik XML formularza
-            array(
-                'control'   => 'jform',   // Prefiks kontrolny formularza
-                'load_data' => $loadData  // Czy załadować dane formularza
-            )
-        );
-
-        if (empty($form))
+        // Modyfikacja aliasu, jeśli nie jest ustawiony
+        if (empty($data['alias']))
         {
-            return false;
-        }
-
-        return $form;
-    }
-
-    /**
-     * Metoda załadowuje dane do formularza
-     *
-     * @return mixed Dane do formularza
-     */
-    protected function loadFormData()
-    {
-        // Sprawdź, czy istnieją dane w sesji użytkownika
-        $data = $this->getItem();
-
-        // Sprawdź czy istnieją dane z poprzedniego formularza
-        if ($this->getState('discipline.id') == 0)
-        {
-            $app = \JFactory::getApplication();
-            $data = $app->getUserState('com_sportowiada.edit.discipline.data', array());
-
-            if (empty($data))
+            if (Factory::getConfig()->get('unicodeslugs') == 1)
             {
-                $data = $this->getItem();
+                $data['alias'] = OutputFilter::stringURLUnicodeSlug($data['title']);
+            }
+            else
+            {
+                $data['alias'] = OutputFilter::stringURLSafe($data['title']);
             }
         }
 
-        return $data;
+        // Ustalanie wartości porządkowania
+        if (!$data['ordering'])
+        {
+            $db = Factory::getDbo();
+            $query = $db->getQuery(true)
+                ->select('MAX(ordering)')
+                ->from('#__sportowiada_disciplines');
+
+            $db->setQuery($query);
+            $max = $db->loadResult();
+
+            $data['ordering'] = $max + 1;
+        }
+
+        return parent::save($data);
     }
 
-    /**
-     * Metoda zwraca tabelę dyscyplin
-     *
-     * @param string $type Nazwa klasy tabeli
-     * @param string $prefix Prefiks nazwy klasy tabeli
-     * @param array $config Tablica konfiguracji
-     * @return \JTable Obiekt tabeli
-     */
-    public function getTable($type = 'Discipline', $prefix = 'RogackiS\\Component\\Sportowiada\\Administrator\\Table\\', $config = array())
+    public function bind($array, $ignore = '')
     {
-        return \JTable::getInstance($type, $prefix, $config);
+        // Przekształcanie atrybutów do formatu JSON
+        if (isset($array['attribs']) && is_array($array['attribs']))
+        {
+            $registry = new Registry($array['attribs']);
+            $array['attribs'] = (string) $registry;
+        }
+
+        return parent::bind($array, $ignore);
+    }
+
+    public function check()
+    {
+        try
+        {
+            parent::check();
+        }
+        catch (\Exception $e)
+        {
+            $this->setError($e->getMessage());
+            return false;
+        }
+
+        // Walidacja tytułu
+        if (trim($this->title) == '')
+        {
+            $this->setError('Title (title) is not set.');
+            return false;
+        }
+
+        // Ustalanie aliasu, jeśli nie jest ustawiony
+        if (trim($this->alias) == '')
+        {
+            $this->alias = $this->title;
+        }
+
+        $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
+
+        // Upewnij się, że nowe elementy mają ustawione obowiązkowe pola
+        if (!$this->id)
+        {
+            $this->hits = 0; // Hits musi być zerowy dla nowego elementu
+        }
+
+        // Ustawienie dat publikacji na null, jeśli nie są ustawione
+        $this->publish_up = $this->publish_up ?: null;
+        $this->publish_down = $this->publish_down ?: null;
+
+        // Sprawdzenie dat publikacji
+        if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
+        {
+            // Zamiana dat
+            $temp = $this->publish_up;
+            $this->publish_up = $this->publish_down;
+            $this->publish_down = $temp;
+        }
+
+        return true;
+    }
+
+    public function store($updateNulls = true)
+    {
+        $app = Factory::getApplication();
+        $date = Factory::getDate()->toSql();
+        $user = Factory::getUser();
+
+        if (!$this->created)
+        {
+            $this->created = $date; // Ustawienie daty utworzenia
+        }
+
+        if (!$this->created_by)
+        {
+            $this->created_by = $user->get('id'); // Ustawienie użytkownika tworzącego
+        }
+
+        if ($this->id)
+        {
+            // Istniejący element
+            $this->modified_by = $user->get('id'); // Ustawienie użytkownika modyfikującego
+            $this->modified = $date; // Ustawienie daty modyfikacji
+        }
+        else
+        {
+            // Ustawienie daty modyfikacji na datę utworzenia, jeśli nie jest ustawiona
+            if (!$this->modified)
+            {
+                $this->modified = $this->created;
+            }
+
+            // Ustawienie modified_by na created_by, jeśli nie jest ustawione
+            if (empty($this->modified_by))
+            {
+                $this->modified_by = $this->created_by;
+            }
+        }
+
+        // Zweryfikowanie unikalności aliasu
+        $table = $app->bootComponent('com_sportowiada')->getMVCFactory()->createTable('Discipline', 'Administrator');
+        if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0))
+        {
+            $this->setError('Alias is not unique.');
+
+            if ($table->state == -2)
+            {
+                $this->setError('Alias is not unique. The item is in Trash.');
+            }
+
+            return false;
+        }
+
+        return parent::store($updateNulls);
     }
 }
