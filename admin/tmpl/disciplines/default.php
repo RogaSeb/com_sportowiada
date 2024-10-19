@@ -7,19 +7,16 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
-
-// Formularz do wyszukiwania
 ?>
 
 <h1>Dyscypliny Sportowe</h1>
 <p>To jest przykładowy komponent Joomla!</p>
 
 <form action="<?php echo Route::_('index.php?option=com_sportowiada&view=disciplines'); ?>" method="post" name="adminForm" id="adminForm">
-    <div class="form-group">
-        <label for="search">Szukaj:</label>
-        <input type="text" name="search" id="search" class="form-control" />
-        <button type="submit" class="btn btn-primary">Szukaj</button>
-    </div>
+
+    <input type="hidden" name="task" value="">
+    <input type="hidden" name="boxchecked" value="0">
+    <?php echo HTMLHelper::_('form.token'); ?>
 
     <?php if (empty($this->items)) : ?>
         <div class="alert alert-info">
@@ -33,7 +30,11 @@ use Joomla\CMS\Language\Text;
                 <tr>
                     <th><?php echo HTMLHelper::_('grid.checkall'); ?></th>
                     <th>Status</th>
-                    <th>Title</th>
+                    <th>
+                        <a href="/<?php echo Route::_('index.php?option=com_sportowiada&task=discipline.edit&id=' . $row->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($row->title); ?>">
+                            <?php echo $this->escape($row->title); ?>
+                        </a>
+                    </th>
                     <th>ID</th>
                 </tr>
             </thead>
@@ -54,6 +55,7 @@ use Joomla\CMS\Language\Text;
         </table>
     <?php endif; ?>
 
+    <!-- Ukryte pola formularza -->
     <input type="hidden" name="task" value="">
     <input type="hidden" name="boxchecked" value="0">
     <?php echo HTMLHelper::_('form.token'); ?>
