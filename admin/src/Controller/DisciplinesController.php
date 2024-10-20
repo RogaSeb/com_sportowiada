@@ -20,4 +20,13 @@ class DisciplinesController extends AdminController
     {
         return parent::getModel($name, $prefix, $config);
     }
+
+    /**
+     * Metoda do dodawania nowego rekordu.
+     */
+    public function add()
+    {
+        // Przekierowanie do formularza dodawania nowej dyscypliny
+        $this->setRedirect(JRoute::_('index.php?option=com_sportowiada&task=discipline.edit&id=0', false));
+    }
 }
