@@ -11,24 +11,21 @@ use RogackiS\Component\Sportowiada\Administrator\Extension\SportowiadaComponent;
 
 return new class implements ServiceProviderInterface
 {
-    public function register(Container $container)
-    {
-        // Rejestracja fabryki dispatcherów komponentu
-        $container->registerServiceProvider(new ComponentDispatcherFactory('\\RogackiS\\Component\\Sportowiada'));
+	public function register(Container $container)
+	{
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\RogackiS\\Component\\Sportowiada'));
 
-        // Rejestracja fabryki MVC
-        $container->registerServiceProvider(new MVCFactory('\\RogackiS\\Component\\Sportowiada'));
+		$container->registerServiceProvider(new MVCFactory('\\RogackiS\\Component\\Sportowiada'));
 
-        // Rejestracja głównego interfejsu komponentu
-        $container->set(
-            ComponentInterface::class,
-            function (Container $container)
-            {
-                $component = new SportowiadaComponent($container->get(ComponentDispatcherFactoryInterface::class));
-                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+		$container->set(
+			ComponentInterface::class,
+			function (Container $container)
+			{
+				$component = new SportowiadaComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
-                return $component;
-            }
-        );
-    }
+				return $component;
+			}
+		);
+	}
 };

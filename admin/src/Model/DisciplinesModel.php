@@ -4,21 +4,19 @@ namespace RogackiS\Component\Sportowiada\Administrator\Model;
 
 defined('_JEXEC') or die('Restricted access');
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ListModel;
 
-class DisciplinesModel extends BaseDatabaseModel
+class DisciplinesModel extends ListModel
 {
     protected function getListQuery()
     {
-        // Pobierz bazę danych
-        $db = $this->getDatabase();
-
-        // Utwórz zapytanie
+        // Uzyskaj instancję bazy danych
+        $db = $this->getDbo();
         $query = $db->getQuery(true);
 
         // Zapytanie SELECT
         $query->select('*')
-            ->from($db->quoteName('#__sportowiada_disciplines', 'a'));
+              ->from($db->quoteName('#__sportowiada_disciplines', 'a'));
 
         // Sortowanie
         $query->order('a.id DESC');

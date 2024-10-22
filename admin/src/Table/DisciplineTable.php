@@ -25,41 +25,6 @@ class DisciplineTable extends Table implements CurrentUserInterface
     {
         parent::__construct('#__sportowiada_disciplines', 'id', $db);
 
-        // Inicjalizacja pól
-        $this->setColumnAlias('published', 'state');
     }
 
-    /**
-     * Metoda do automatycznego ustawiania daty utworzenia i aktualizacji rekordu
-     *
-     * @param   boolean  $updateNulls  Wskazuje, czy wartości null powinny być aktualizowane
-     * @return  boolean  True on success
-     */
-    public function store($updateNulls = false)
-    {
-        $date = \Joomla\CMS\Factory::getDate();
-        $user = \Joomla\CMS\Factory::getUser();
-
-        // Jeśli rekord jest nowy, ustaw datę utworzenia i ID użytkownika, który go stworzył
-        if (empty($this->id))
-        {
-            if (!(int) $this->created)
-            {
-                $this->created = $date->toSql();
-            }
-
-            if (empty($this->created_by))
-            {
-                $this->created_by = $user->id;
-            }
-        }
-        // Zawsze ustawiaj datę aktualizacji i ID użytkownika, który go zaktualizował
-        else
-        {
-            $this->modified = $date->toSql();
-            $this->modified_by = $user->id;
-        }
-
-        return parent::store($updateNulls);
-    }
 }

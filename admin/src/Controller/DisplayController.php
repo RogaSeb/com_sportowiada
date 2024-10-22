@@ -8,8 +8,5 @@ use Joomla\CMS\MVC\Controller\BaseController;
 
 class DisplayController extends BaseController
 {
-    /**
-     * @var string Domyślny widok dla kontrolera.
-     */
-    protected $default_view = 'disciplines';
+	protected $default_view = 'disciplines';
 }

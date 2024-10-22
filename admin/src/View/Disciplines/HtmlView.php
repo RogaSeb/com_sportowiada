@@ -10,27 +10,21 @@ use Joomla\CMS\Language\Text;
 
 class HtmlView extends BaseHtmlView
 {
-    public function display($tpl = null)
-    {
-        // Ustaw pasek narzędzi.
-        $this->addToolbar();
+	public function display($tpl = null)
+	{
+		$this->addToolbar();
 
-        // Pobierz elementy i przypisz je do $this->items
-        $this->items = $this->get('Items');
+		$this->items = $this->get('Items');
 
-        // Wywołaj rodzica dla wyświetlenia widoku
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    protected function addToolbar()
-    {
-        // Ustaw tytuł paska narzędzi
-        ToolbarHelper::title(Text::_('COM_SPORTOWIADA_MANAGER_DISCIPLINES'));
-
-        // Dodaj przyciski do paska narzędzi
-        ToolbarHelper::addNew('discipline.add'); // Przycisk dodawania
-        ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'disciplines.delete'); // Przycisk usuwania
-        ToolbarHelper::publish('disciplines.publish', 'JTOOLBAR_PUBLISH', true); // Przycisk publikacji
-        ToolbarHelper::unpublish('disciplines.unpublish', 'JTOOLBAR_UNPUBLISH', true); // Przycisk unpublikacji
-    }
+	protected function addToolbar()
+	{
+		ToolbarHelper::title(Text::_('COM_SPORTOWIADA_MANAGER_DISCIPLINES'));
+		ToolbarHelper::addNew('discipline.add');
+		ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'disciplines.delete');
+		ToolbarHelper::publish('disciplines.publish', 'JTOOLBAR_PUBLISH', true);
+		ToolbarHelper::unpublish('disciplines.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+	}
 }
