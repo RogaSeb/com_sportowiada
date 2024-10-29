@@ -1,0 +1,1 @@
+<h2>Witamy w Komponencie Sportowiada!</h2>

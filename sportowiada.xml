@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+    <name>COM_SPORTOWIADA</name>
+    <version>v0.1.0-alpha</version>
+    <description>COM_SPORTOWIADA_XML_DESCRIPTION</description>
+
+    <namespace path="src/">RogackiS\Component\Sportowiada</namespace>
+
+	<administration>
+        <menu img="class:default">COM_SPORTOWIADA_MENU</menu>
+        <files folder="admin">
+            <folder>services</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+        </files>
+    </administration>
+
+</extension>
