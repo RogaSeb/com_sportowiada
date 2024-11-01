@@ -26,11 +26,17 @@
 		<menu img="class:default">COM_SPORTOWIADA_MENU</menu>
 		<files folder="admin">
 			<folder>forms</folder>
+			<folder>language</folder>
 			<folder>services</folder>
 			<folder>sql</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>
 		</files>
+
+		<languages>
+			<language tag="pl-PL">admin/language/pl-PL/com_sportowiada.ini</language>
+			<language tag="pl-PL">admin/language/pl-PL/com_sportowiada.sys.ini</language>
+		</languages>
 	</administration>
 
 </extension>

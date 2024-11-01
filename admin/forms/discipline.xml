@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="basic" label="COM_SPORTOWIADA_DISCIPLINE_DETAILS">
+    <fieldset name="basic" label="JGLOBAL_FIELDSET_DETAILS">
         <!-- Pole ID - tylko do odczytu -->
         <field
             name="id"
