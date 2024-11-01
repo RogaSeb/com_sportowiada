@@ -25,6 +25,7 @@
 	<administration>
 		<menu img="class:default">COM_SPORTOWIADA_MENU</menu>
 		<files folder="admin">
+			<folder>forms</folder>
 			<folder>services</folder>
 			<folder>sql</folder>
 			<folder>src</folder>
