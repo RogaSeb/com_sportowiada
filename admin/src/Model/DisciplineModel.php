@@ -5,6 +5,8 @@ namespace RogackiS\Component\Sportowiada\Administrator\Model;
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 
 class DisciplineModel extends AdminModel
 {
@@ -18,5 +20,21 @@ class DisciplineModel extends AdminModel
         }
 
         return $form;
+    }
+
+    protected function loadFormData() 
+    { 
+        /** @var CMSApplication $app */
+        $app = Factory::getApplication(); 
+    
+        // Pobiera dane z sesji użytkownika, jeśli istnieją
+        $data = $app->getUserState('com_sportowiada.edit.discipline.data', []); 
+    
+        // Jeśli brak danych, pobiera dane istniejącego elementu
+        if (empty($data)) { 
+            $data = $this->getItem(); 
+        } 
+    
+        return $data; 
     }
 }
