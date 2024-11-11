@@ -36,8 +36,6 @@ class HtmlView extends BaseHtmlView
         // Ustawia tytuł paska narzędzi
         ToolbarHelper::title(Text::_('COM_SPORTOWIADA_DISCIPLINE_TITLE_ADD'));
 
-		echo Text::_('TEST_KEY');
-
 		// Dodaje przycisk "Apply" do paska narzędzi, który umożliwia zapisanie zmian bez zamykania edytora.
 		ToolbarHelper::apply('discipline.apply');
 

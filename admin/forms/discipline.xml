@@ -2,12 +2,14 @@
 <form>
     <fieldset name="basic" label="JGLOBAL_FIELDSET_DETAILS">
         <!-- Pole ID - tylko do odczytu -->
-        <field
-            name="id"
-            type="hidden"
-            label="JGLOBAL_FIELD_ID_LABEL"
-            readonly="true"
-        />
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
 
         <!-- Pole nazwy dyscypliny -->
         <field
@@ -17,5 +19,14 @@
             description="COM_SPORTOWIADA_DISCIPLINE_NAME_DESC"
             required="true"
         />
+
+                <!-- Pole nazwy dyscypliny -->
+		<field
+			name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+		/>
     </fieldset>
 </form>
