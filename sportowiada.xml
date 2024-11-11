@@ -24,6 +24,18 @@
 
 	<administration>
 		<menu img="class:default">COM_SPORTOWIADA_MENU</menu>
+		<submenu>
+			<!--
+				Należy pamiętać, że wszystkie znaki & muszą być zapisane jako &amp;,
+				aby plik był poprawnym XML i mógł zostać przetworzony przez instalator
+			-->
+			<menu link="option=com_sportowiada&amp;view=disciplines" view="disciplines" img="class:disciplines">
+				COM_SPORTOWIADA_DISCIPLINES
+			</menu>
+			<menu link="option=com_sportowiada&amp;view=discipline&amp;layout=edit" view="discipline" img="class:discipline">
+				COM_SPORTOWIADA_DISCIPLINE
+			</menu>
+		</submenu>
 		<files folder="admin">
 			<folder>forms</folder>
 			<folder>language</folder>
