@@ -17,7 +17,7 @@ $wa->useScript('form.validate');
 
 	<div class="main-card">
 			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'details', 'recall' => true, 'breakpoint' => 768]); ?>
-
+<!--
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_BANNERS_BANNER_DETAILS')); ?>
 			<div class="row">
 				<div class="col-lg-9">
@@ -69,7 +69,7 @@ $wa->useScript('form.validate');
 			</div>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
+			<?php echo HTMLHelper::_('uitab.endTabSet'); ?> -->
 	</div>
 
 	<input type="hidden" name="task" value="discipline.edit" />

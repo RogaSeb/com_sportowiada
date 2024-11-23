@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__sportowiada_disciplines` (
   `sportsart` TINYINT NOT NULL DEFAULT '0',
   `ordering` INT NOT NULL DEFAULT 0,
   `checked_out` INT UNSIGNED NOT NULL DEFAULT 0,
-  `checked_out_time` datetime,
+  `checked_out_time` DATETIME DEFAULT NULL,
   `created_by` INT UNSIGNED NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` INT UNSIGNED DEFAULT NULL,
